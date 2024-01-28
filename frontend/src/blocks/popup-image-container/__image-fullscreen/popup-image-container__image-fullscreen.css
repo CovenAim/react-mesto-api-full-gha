@@ -1,0 +1,13 @@
+.popup-image-container__image-fullscreen {
+    max-width: 75vw;
+    max-height: 75vh;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* @media (max-width: 750px) {
+    .popup-image-container__image-fullscreen {
+        height: auto;
+    }
+} */

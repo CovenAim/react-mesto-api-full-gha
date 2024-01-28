@@ -1,0 +1,4 @@
+.auth-form__label {
+    display: grid;
+    grid-template-columns: 1fr;
+}

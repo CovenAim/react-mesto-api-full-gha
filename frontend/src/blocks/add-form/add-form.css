@@ -1,0 +1,18 @@
+.add-form {
+    border: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* gap: 37px; */
+}
+
+@media (max-width: 750px) {
+    .add-form {
+        width: 238px;
+    }
+}

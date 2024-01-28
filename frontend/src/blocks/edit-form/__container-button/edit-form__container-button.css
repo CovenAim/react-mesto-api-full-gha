@@ -1,0 +1,33 @@
+.edit-form__container-button {
+    width: 358px;
+    height: 50px;
+    background-color: #000;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #fff;
+    margin: 26px 0px 34px;
+    cursor: pointer;
+    border-radius: 2px;
+    border: 0;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.edit-form__container-button:hover {
+    opacity: 0.8;
+    transition: ease-in-out 0.2s;
+}
+
+@media (max-width: 750px) {
+    .edit-form__container-button {
+        width: 238px;
+        height: 46px;
+        font-size: 14px;
+        line-height: 17px;
+        margin: 20px 0px 25px;
+    }
+}

@@ -1,0 +1,10 @@
+.element__group-favorite {
+    width: 24px;
+    height: 19px;
+    cursor: pointer;
+}
+
+
+.element__group-favorite:hover {
+    opacity: 0.5;
+}

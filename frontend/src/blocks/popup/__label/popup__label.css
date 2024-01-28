@@ -1,0 +1,9 @@
+.popup__label {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-bottom: 37px;
+    width: 350px;
+    margin-left: 40px;
+    /* gap: 37px;   */
+    /* padding: 0; */
+}

@@ -1,0 +1,9 @@
+.url-avatar-error {
+    margin-left: 36px;
+}
+
+@media (max-width: 750px) {
+    .url-avatar-error {
+        margin-left: 0;
+    }
+}

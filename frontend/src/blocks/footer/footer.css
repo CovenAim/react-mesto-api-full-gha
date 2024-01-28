@@ -1,0 +1,13 @@
+.footer {
+    max-width: 318px;
+    margin: 66px 0 60px 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 750px) {
+    .footer {
+        max-width: 282px;
+        margin: 48px 18px 36px;
+    }
+}
