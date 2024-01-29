@@ -15,7 +15,11 @@ export default function Main({
   onCardDelete,
   onDeletePopupClick,
 }) {
-  const currentUser = useContext(CurrentUserContext);
+
+const currentUser = useContext(CurrentUserContext);
+
+console.log('Current User:', currentUser);
+console.log('Cards:', cards);
 
   return (
     <main className="content">

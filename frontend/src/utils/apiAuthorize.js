@@ -38,18 +38,29 @@ export const authorize = (email, password) => {
       email: email
     })
   })
-    .then((res) => {
-      console.log('Server response:', res);
-      
-      // Проверьте данные в теле ответа
-      return res.json().then(data => {
-        console.log('Server response data:', data);
+  .then((res) => {
+    console.log('Server response:', res);
+
+    return res.json().then(data => {
+      console.log('Server response data:', data);
+
+      if (res.ok) {
+        console.log('Authorized user:', data);
+
+        // Сохраните токен в localStorage или в другом безопасном месте
+        localStorage.setItem('token', data.token);
+
         return data;
-      });
+      } else {
+        throw new Error(data.message || `Ошибка: ${res.status} ${res.statusText}`);
+      }
     });
+  });
 };
 
+
 export const checkToken = (token) => {
+  console.log(token); // Вывод токена в консоль
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
@@ -57,5 +68,10 @@ export const checkToken = (token) => {
       'Authorization': `Bearer ${token}`
     }
   })
-    .then(sendRequest);
+    .then(sendRequest)
+    .catch(error => {
+      console.error('Error during checkToken:', error);
+      throw error; // Передача ошибки дальше для обработки
+    });
 };
+

@@ -68,27 +68,37 @@ export default function App() {
 
   const handleLogin = async (email, password) => {
     try {
+      console.log('Attempting to log in with email:', email);
+      console.log('Sending login request with email and password:', email, password);
+  
       const data = await apiAuthorize.authorize(email, password);
-      if (data.token) {
-        setToken(data.token);
-        setLoggedIn(true);
-        setUserEmail(email);
+      console.log('Server response data:', data);
 
+      if (data.data.id) {
+        console.log('User data:', data.data);
+        
         // Сохраняем информацию в локальное хранилище
         localStorage.setItem("loggedIn", "true");
         localStorage.setItem("userEmail", email);
         localStorage.setItem("token", data.token);
 
+        console.log('Successful login. Received token:', data.token);
+        setToken(data.token);
+        setLoggedIn(true);
+        setUserEmail(email);
+
+        console.log('loggedIn:', loggedIn);
         navigate("/");
       }
     } catch (err) {
-      console.error(err);
+      console.error('Error during login:', err);
       openInfotooltip({
         type: "error",
         text: "Что-то пошло не так! Попробуйте ещё раз.",
       });
     }
-  };
+  };  
+  
 
   const handleRegister = (email, password) => {
     handleSubmit(() =>

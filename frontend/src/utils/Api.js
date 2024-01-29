@@ -14,17 +14,25 @@ class Api {
     });
   }
 
+  _updateHeaders() {
+    const token = localStorage.getItem("token");
+    return {
+      ...this._headers,
+      'Authorization': `Bearer ${token}`
+    };
+  }
+
   getAllCards() {
     return this._sendRequest(`${this._url}/cards`, {
       method: "GET",
-      headers: this._headers,
+      headers: this._updateHeaders(),
     });
   }
 
   getApiUserInfo() {
     return this._sendRequest(`${this._url}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: this._updateHeaders(),
     });
   }
 
@@ -88,7 +96,7 @@ class Api {
 const api = new Api({
   url: "http://localhost:3000",
   headers: {
-    authorization: "83dc9433-9b9b-4fa6-92f5-5a62f5b1db23",
+    // authorization: "83dc9433-9b9b-4fa6-92f5-5a62f5b1db23",
     "Content-Type": "application/json",
   },
 });

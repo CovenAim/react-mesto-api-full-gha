@@ -20,7 +20,7 @@ const urlElement = document.getElementById("url"); //Переменная с ID 
 const inputName = document.querySelector('input[name="name"]'); //Поиск элемента input, у которого атрибут равен name
 const inputDescription = document.querySelector('input[name="description"]'); //Поиск элемента input, у которого атрибут равен description
 const optionsApi = {
-  url: "http://localhost:3000",
+  url: "https://api.mestofan.nomoredomainsmonster.ru",
   headers: {
     // authorization: "83dc9433-9b9b-4fa6-92f5-5a62f5b1db23",
     "Content-Type": "application/json",
