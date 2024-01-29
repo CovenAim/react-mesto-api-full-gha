@@ -5,10 +5,12 @@
   "main": "backend/app.js",
   "scripts": {
     "start": "node backend/app.js"
-     
   },
   "dependencies": {
     "express-winston": "^4.2.0",
     "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "wait-port": "^1.1.0"
   }
 }
