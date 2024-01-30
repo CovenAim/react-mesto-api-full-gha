@@ -104,7 +104,7 @@ exports.login = async (req, res, next) => {
     }
 
     // Вывод значения переменной окружения JWT_SECRET
-    // console.log('JWT_SECRET:', process.env.JWT_SECRET);
+    console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '7d',
@@ -115,6 +115,8 @@ exports.login = async (req, res, next) => {
       httpOnly: true,
       secure: true,
     });
+
+    console.log('JWT token created:', token);
 
     res.status(http2.constants.HTTP_STATUS_OK).send({
       data: { email: user.email, id: user._id },

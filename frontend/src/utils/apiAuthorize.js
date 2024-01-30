@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 export const BASE_URL = 'http://localhost:3000';
 
 export function sendRequest(res) {
@@ -45,10 +47,10 @@ export const authorize = (email, password) => {
       console.log('Server response data:', data);
 
       if (res.ok) {
-        console.log('Authorized user:', data);
+        console.log('Authorized user:', data.data);
 
-        // Сохраните токен в localStorage или в другом безопасном месте
-        localStorage.setItem('token', data.token);
+        // Сохраните токен в cookies
+        Cookies.set('token', data.token);
 
         return data;
       } else {
@@ -59,7 +61,8 @@ export const authorize = (email, password) => {
 };
 
 
-export const checkToken = (token) => {
+export const checkToken = () => {
+  const token = Cookies.get('token');
   console.log(token); // Вывод токена в консоль
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
@@ -74,4 +77,3 @@ export const checkToken = (token) => {
       throw error; // Передача ошибки дальше для обработки
     });
 };
-

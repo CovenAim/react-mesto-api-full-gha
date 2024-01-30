@@ -14,7 +14,7 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import * as apiAuthorize from "../utils/apiAuthorize";
-import { setToken } from "../utils/token";
+import Cookies from 'js-cookie'; // импортируем библиотеку для работы с куками
 import InfoTooltip from "./InfoTooltip";
 
 export default function App() {
@@ -35,16 +35,19 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedLoggedIn = localStorage.getItem("loggedIn");
-    const storedUserEmail = localStorage.getItem("userEmail");
+    const token = Cookies.get("token"); // получаем токен из куков
 
-    if (token && storedLoggedIn === "true" && storedUserEmail) {
-      setLoggedIn(true);
-      setUserEmail(storedUserEmail);
-      navigate("/"); // Перенаправление пользователя на главную страницу после успешной авторизации
+    if (token) {
+      const storedLoggedIn = Cookies.get("loggedIn");
+      const storedUserEmail = Cookies.get("userEmail");
+
+      if (storedLoggedIn === "true" && storedUserEmail) {
+        setLoggedIn(true);
+        setUserEmail(storedUserEmail);
+        navigate("/");
+      }
     }
-  }, []);
+  }, [navigate]);
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -73,20 +76,20 @@ export default function App() {
   
       const data = await apiAuthorize.authorize(email, password);
       console.log('Server response data:', data);
-
-      if (data.data.id) {
+  
+      const token = data.token; // получаем токен из ответа сервера
+  
+      if (token) {
         console.log('User data:', data.data);
-        
-        // Сохраняем информацию в локальное хранилище
-        localStorage.setItem("loggedIn", "true");
-        localStorage.setItem("userEmail", email);
-        localStorage.setItem("token", data.token);
-
-        console.log('Successful login. Received token:', data.token);
-        setToken(data.token);
+  
+        Cookies.set("loggedIn", "true", { expires: 7 }); // устанавливаем куку loggedIn
+        Cookies.set("userEmail", email, { expires: 7 }); // устанавливаем куку userEmail
+        Cookies.set("token", token, { expires: 7 }); // устанавливаем куку token
+  
+        console.log('Successful login. Received token:', token);
         setLoggedIn(true);
         setUserEmail(email);
-
+  
         console.log('loggedIn:', loggedIn);
         navigate("/");
       }
@@ -97,8 +100,7 @@ export default function App() {
         text: "Что-то пошло не так! Попробуйте ещё раз.",
       });
     }
-  };  
-  
+  };
 
   const handleRegister = (email, password) => {
     handleSubmit(() =>
@@ -122,7 +124,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
 
     if (token) {
       apiAuthorize
@@ -138,10 +140,10 @@ export default function App() {
   }, []);
 
   const onSignOut = () => {
-    // Удаляем информацию из локального хранилища
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("token");
+    // Удаляем куки
+    Cookies.remove("loggedIn");
+    Cookies.remove("userEmail");
+    Cookies.remove("token");
 
     setLoggedIn(false);
     setUserEmail("");
@@ -228,7 +230,6 @@ export default function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      // Выполняем запрос за данными пользователя
       api
         .getApiUserInfo()
         .then((userData) => {
@@ -238,11 +239,10 @@ export default function App() {
           console.log(err);
         });
     }
-  }, [loggedIn]); // loggedIn включен в массив зависимостей
+  }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
-      // Выполняем запрос за карточками
       api
         .getAllCards()
         .then((data) => {
@@ -252,7 +252,7 @@ export default function App() {
           console.log("Ошибка:", err);
         });
     }
-  }, [loggedIn]); // loggedIn включен в массив зависимостей
+  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 class Api {
   constructor({ url, headers }) {
     this._url = url;
@@ -15,12 +17,14 @@ class Api {
   }
 
   _updateHeaders() {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
+    console.log("Token from cookies:", token); // вывод для проверки
     return {
       ...this._headers,
       'Authorization': `Bearer ${token}`
     };
   }
+  
 
   getAllCards() {
     return this._sendRequest(`${this._url}/cards`, {
@@ -39,7 +43,7 @@ class Api {
   editApiProfile(name, about) {
     return this._sendRequest(`${this._url}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this._updateHeaders(),
       body: JSON.stringify({
         name: name,
         about: about,
@@ -50,7 +54,7 @@ class Api {
   editAvatar(avatarUrl) {
     return this._sendRequest(`${this._url}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this._updateHeaders(),
       body: JSON.stringify({
         avatar: avatarUrl,
       }),
@@ -60,7 +64,7 @@ class Api {
   addNewCardApi(name, link) {
     return this._sendRequest(`${this._url}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: this._updateHeaders(),
       body: JSON.stringify({
         name: name,
         link: link,
@@ -74,7 +78,7 @@ class Api {
 
     return fetch(url, {
       method: method,
-      headers: this._headers,
+      headers: this._updateHeaders(),
     }).then((response) => {
       if (!response.ok) {
         return response.json().then((err) => {
@@ -88,7 +92,7 @@ class Api {
   deleteCardApi(cardId) {
     return this._sendRequest(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this._updateHeaders(),
     });
   }
 }
