@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie';
-
 class Api {
   constructor({ url, headers }) {
     this._url = url;
@@ -17,8 +15,7 @@ class Api {
   }
 
   _updateHeaders() {
-    const token = Cookies.get("token");
-    console.log("Token from cookies:", token); // вывод для проверки
+    const token = localStorage.getItem("token");
     return {
       ...this._headers,
       'Authorization': `Bearer ${token}`
@@ -30,6 +27,7 @@ class Api {
     return this._sendRequest(`${this._url}/cards`, {
       method: "GET",
       headers: this._updateHeaders(),
+      Credential: 'include'
     });
   }
 
@@ -100,7 +98,6 @@ class Api {
 const api = new Api({
   url: "http://localhost:3000",
   headers: {
-    // authorization: "83dc9433-9b9b-4fa6-92f5-5a62f5b1db23",
     "Content-Type": "application/json",
   },
 });

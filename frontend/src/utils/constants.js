@@ -22,7 +22,6 @@ const inputDescription = document.querySelector('input[name="description"]'); //
 const optionsApi = {
   url: "https://api.mestofan.nomoredomainsmonster.ru",
   headers: {
-    // authorization: "83dc9433-9b9b-4fa6-92f5-5a62f5b1db23",
     "Content-Type": "application/json",
   },
 };

@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie';
-
 export const BASE_URL = 'http://localhost:3000';
 
 export function sendRequest(res) {
@@ -40,30 +38,11 @@ export const authorize = (email, password) => {
       email: email
     })
   })
-  .then((res) => {
-    console.log('Server response:', res);
-
-    return res.json().then(data => {
-      console.log('Server response data:', data);
-
-      if (res.ok) {
-        console.log('Authorized user:', data.data);
-
-        // Сохраните токен в cookies
-        Cookies.set('token', data.token);
-
-        return data;
-      } else {
-        throw new Error(data.message || `Ошибка: ${res.status} ${res.statusText}`);
-      }
-    });
-  });
+  .then(sendRequest)
 };
 
 
-export const checkToken = () => {
-  const token = Cookies.get('token');
-  console.log(token); // Вывод токена в консоль
+export const checkToken = token => {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
@@ -72,8 +51,4 @@ export const checkToken = () => {
     }
   })
     .then(sendRequest)
-    .catch(error => {
-      console.error('Error during checkToken:', error);
-      throw error; // Передача ошибки дальше для обработки
-    });
 };

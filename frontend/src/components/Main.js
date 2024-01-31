@@ -18,8 +18,8 @@ export default function Main({
 
 const currentUser = useContext(CurrentUserContext);
 
-console.log('Current User:', currentUser);
-console.log('Cards:', cards);
+// console.log('Current User:', currentUser);
+// console.log('Cards:', cards);
 
   return (
     <main className="content">
@@ -64,7 +64,7 @@ console.log('Cards:', cards);
         </button>
       </section>
       <section className="elements">
-        {cards.map((card, index) => {
+        {cards?.map((card, index) => {
           return (
             <Card
               card={card}

@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../utils/UnauthorizedError');
-
-const secret = process.env.JWT_SECRET;
+const { JWT_SECRET } = require('../config');
 
 // eslint-disable-next-line consistent-return
 const auth = (req, res, next) => {
@@ -16,12 +15,12 @@ const auth = (req, res, next) => {
   }
 
   try {
-    const payload = jwt.verify(token, secret);
-    console.log('Decoded payload:', payload);
+    const payload = jwt.verify(token, JWT_SECRET);
+    // console.log('Decoded payload:', payload);
     req.user = payload;
     next();
   } catch (err) {
-    console.error('Auth Middleware: Ошибка при проверке токена', err);
+    // console.error('Auth Middleware: Ошибка при проверке токена', err);
     next(new UnauthorizedError('Неверный токен'));
   }
 };

@@ -7,12 +7,13 @@ const BadRequestError = require('../utils/BadRequestError');
 const NotFoundError = require('../utils/NotFoundError');
 const UnauthorizedError = require('../utils/UnauthorizedError');
 const { CustomError } = require('../utils/CustomError');
+const { JWT_SECRET } = require('../config');
 
 // Получение всех пользователей
 exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
-    res.status(http2.constants.HTTP_STATUS_OK).json({ data: users });
+    res.status(http2.constants.HTTP_STATUS_OK).json(users);
   } catch (err) {
     next(err);
   }
@@ -21,12 +22,13 @@ exports.getAllUsers = async (req, res, next) => {
 exports.getUserById = async (req, res, next) => {
   try {
     let userId;
-
-    if (req.params.userId === 'me' && req.user) {
-      userId = req.user._id;
-    } else {
+    console.log('req.user', req.params.user);
+    if (req.params.userId) {
       userId = req.params.userId;
+    } else if (req.user) {
+      userId = req.user._id;
     }
+    console.log('userId', userId);
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       throw new BadRequestError('Некорректный ID пользователя');
     }
@@ -103,23 +105,13 @@ exports.login = async (req, res, next) => {
       throw new UnauthorizedError('Неверные почта или пароль');
     }
 
-    // Вывод значения переменной окружения JWT_SECRET
-    console.log('JWT_SECRET:', process.env.JWT_SECRET);
-
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
       expiresIn: '7d',
     });
 
-    res.cookie('jwt', token, {
-      maxAge: 3600000 * 24 * 7,
-      httpOnly: true,
-      secure: true,
-    });
-
-    console.log('JWT token created:', token);
-
     res.status(http2.constants.HTTP_STATUS_OK).send({
       data: { email: user.email, id: user._id },
+      token,
       message: 'Аутентификация прошла успешно',
     });
   } catch (err) {

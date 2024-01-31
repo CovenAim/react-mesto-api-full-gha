@@ -14,7 +14,6 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import * as apiAuthorize from "../utils/apiAuthorize";
-import Cookies from 'js-cookie'; // импортируем библиотеку для работы с куками
 import InfoTooltip from "./InfoTooltip";
 
 export default function App() {
@@ -35,11 +34,10 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = Cookies.get("token"); // получаем токен из куков
-
+    const token = localStorage.getItem("token");
     if (token) {
-      const storedLoggedIn = Cookies.get("loggedIn");
-      const storedUserEmail = Cookies.get("userEmail");
+      const storedLoggedIn = localStorage.getItem("loggedIn");
+      const storedUserEmail = localStorage.getItem("userEmail");
 
       if (storedLoggedIn === "true" && storedUserEmail) {
         setLoggedIn(true);
@@ -71,26 +69,20 @@ export default function App() {
 
   const handleLogin = async (email, password) => {
     try {
-      console.log('Attempting to log in with email:', email);
-      console.log('Sending login request with email and password:', email, password);
-  
       const data = await apiAuthorize.authorize(email, password);
-      console.log('Server response data:', data);
   
-      const token = data.token; // получаем токен из ответа сервера
+      const token = data.token;
   
       if (token) {
-        console.log('User data:', data.data);
+        // console.log('User data:', data.data);
   
-        Cookies.set("loggedIn", "true", { expires: 7 }); // устанавливаем куку loggedIn
-        Cookies.set("userEmail", email, { expires: 7 }); // устанавливаем куку userEmail
-        Cookies.set("token", token, { expires: 7 }); // устанавливаем куку token
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("userEmail", email);
+        localStorage.setItem("token", token);
   
-        console.log('Successful login. Received token:', token);
         setLoggedIn(true);
         setUserEmail(email);
   
-        console.log('loggedIn:', loggedIn);
         navigate("/");
       }
     } catch (err) {
@@ -124,14 +116,14 @@ export default function App() {
   };
 
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = localStorage.getItem("token");
 
     if (token) {
       apiAuthorize
         .checkToken(token)
         .then((response) => {
           setLoggedIn(true);
-          setUserEmail(response?.data?.email);
+          setUserEmail(response?.email);
         })
         .catch((err) => {
           console.log(err);
@@ -140,10 +132,9 @@ export default function App() {
   }, []);
 
   const onSignOut = () => {
-    // Удаляем куки
-    Cookies.remove("loggedIn");
-    Cookies.remove("userEmail");
-    Cookies.remove("token");
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("token");
 
     setLoggedIn(false);
     setUserEmail("");
@@ -233,6 +224,7 @@ export default function App() {
       api
         .getApiUserInfo()
         .then((userData) => {
+          console.log("userData", userData);
           setCurrentUser(userData);
         })
         .catch((err) => {
@@ -245,7 +237,7 @@ export default function App() {
     if (loggedIn) {
       api
         .getAllCards()
-        .then((data) => {
+        .then(data => {
           setCards(data);
         })
         .catch((err) => {

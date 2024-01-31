@@ -8,7 +8,7 @@ const MONGO_DUPLICATE_ERROR_CODE = 11000;
 
 // eslint-disable-next-line consistent-return, no-unused-vars
 const errorHandler = (err, req, res, next) => {
-  console.error('ErrorHandler: Получена ошибка', err);
+  // console.error('ErrorHandler: Получена ошибка', err);
   // Обработка ошибок валидации Joi
   if (err && err.isJoi) {
     return res.status(400).json({
