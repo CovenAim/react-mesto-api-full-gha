@@ -1,6 +1,6 @@
 import React from "react";
 import trash from "../images/Trash.svg";
-import like from "../images/favorite.svg";
+import like from "../images/Trash.svg";
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 

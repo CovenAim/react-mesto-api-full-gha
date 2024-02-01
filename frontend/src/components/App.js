@@ -74,8 +74,6 @@ export default function App() {
       const token = data.token;
   
       if (token) {
-        // console.log('User data:', data.data);
-  
         localStorage.setItem("loggedIn", "true");
         localStorage.setItem("userEmail", email);
         localStorage.setItem("token", token);
