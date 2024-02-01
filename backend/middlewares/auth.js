@@ -16,11 +16,9 @@ const auth = (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    // console.log('Decoded payload:', payload);
     req.user = payload;
     next();
   } catch (err) {
-    // console.error('Auth Middleware: Ошибка при проверке токена', err);
     next(new UnauthorizedError('Неверный токен'));
   }
 };

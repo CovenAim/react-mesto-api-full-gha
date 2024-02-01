@@ -43,12 +43,14 @@ export const authorize = (email, password) => {
 
 
 export const checkToken = token => {
+  console.log('Sending request to check token:', token);
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    }
+      'Authorization': `Bearer ${token}`,
+    },
+    
   })
     .then(sendRequest)
 };

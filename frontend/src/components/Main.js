@@ -18,9 +18,6 @@ export default function Main({
 
 const currentUser = useContext(CurrentUserContext);
 
-// console.log('Current User:', currentUser);
-// console.log('Cards:', cards);
-
   return (
     <main className="content">
       <section className="profile">
