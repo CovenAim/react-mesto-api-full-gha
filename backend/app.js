@@ -1,22 +1,25 @@
-const express = require('express');
 require('dotenv').config();
-
-const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
+const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+
 const { errors: celebrateErrors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const rootRouter = require('./routes/index');
 const errorHandler = require('./middlewares/errors');
 const config = require('./config');
-const cors = require('./middlewares/cors');
 const { CustomError } = require('./utils/CustomError');
+const cors = require('./middlewares/cors');
+const rootRouter = require('./routes/index');
 
 const app = express();
 const HTTP_NOT_FOUND = 404;
 
 // Используем helmet
 app.use(helmet());
+
+// Используем cors
+app.use(cors);
 
 // Определение запросов лимитера
 const limiter = rateLimit({
@@ -44,7 +47,6 @@ app.use(express.json());
 app.use(limiter);
 
 app.use(requestLogger);
-app.use(cors);
 
 // rootRouter
 app.use('/', rootRouter);

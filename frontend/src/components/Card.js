@@ -1,6 +1,6 @@
 import React from "react";
 import trash from "../images/Trash.svg";
-import like from "../images/Trash.svg";
+import like from "../images/favorite.svg";
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
@@ -24,8 +24,8 @@ export default function Card({
   }
 
   const currentUser = useContext(CurrentUserContext);
-  const isOwn = card.owner._id === currentUser._id;
-  const isLiked = card.likes.some((i) => i._id === currentUser._id);
+  const isOwn = card.owner.id === currentUser.id;
+  const isLiked = card.likes.some((i) => i.id === currentUser.id);
   const cardLikeButtonClassName = `element__group-favorite ${
     isLiked ? "element__group-favorite_active" : ""
   }`;

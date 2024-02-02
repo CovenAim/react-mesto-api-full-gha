@@ -202,7 +202,7 @@ export default function App() {
         closeAllPopups();
       })
       .catch((error) => {
-        console.error("Ошибка:", error);
+        console.error("Ошибка:", error.message || error);
       })
       .finally(() => {
         setIsLoading(false);
