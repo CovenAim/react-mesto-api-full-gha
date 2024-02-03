@@ -7,7 +7,7 @@ const ForbiddenError = require('../utils/ForbiddenErrors');
 
 exports.getCards = async (req, res, next) => {
   try {
-    const cards = await Card.find({});
+    const cards = await Card.find({}).populate('owner').populate('likes');
     res.status(http2.constants.HTTP_STATUS_OK).json(cards);
   } catch (err) {
     next(err);

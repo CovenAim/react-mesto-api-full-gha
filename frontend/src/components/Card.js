@@ -24,11 +24,19 @@ export default function Card({
   }
 
   const currentUser = useContext(CurrentUserContext);
+
+  // Является ли текущий пользователь владельцем карточки
   const isOwn = card.owner.id === currentUser.id;
-  const isLiked = card.likes.some((i) => i.id === currentUser.id);
+  
+  // Стоит ли лайкнул ли  пользователь карточку
+  const isLiked = card.likes.some((like) => like.id === currentUser.id);
+  
+  // Изменения кнопки лайка
   const cardLikeButtonClassName = `element__group-favorite ${
     isLiked ? "element__group-favorite_active" : ""
   }`;
+
+  
 
   return (
     <article className="element">

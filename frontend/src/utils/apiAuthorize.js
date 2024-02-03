@@ -1,3 +1,5 @@
+import { ok } from "assert";
+
 export const BASE_URL = 'https://api.mestofan.nomoredomainsmonster.ru';
 
 export function sendRequest(res) {
