@@ -48,8 +48,6 @@ app.use(limiter);
 
 app.use(requestLogger);
 
-// rootRouter
-app.use('/', rootRouter);
 app.use(errorLogger);
 app.use(celebrateErrors());
 app.use(errorHandler);
@@ -58,6 +56,9 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
+
+// rootRouter
+app.use('/', rootRouter);
 
 // Обработка случая, когда маршрут не найден
 app.use('*', (req, res, next) => {
