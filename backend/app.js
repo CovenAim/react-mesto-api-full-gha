@@ -28,12 +28,6 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later.',
 });
 
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
-
 // Подключение к MongoDB
 mongoose
   .connect(config.MONGODB_URI, {
@@ -59,6 +53,11 @@ app.use('/', rootRouter);
 app.use(errorLogger);
 app.use(celebrateErrors());
 app.use(errorHandler);
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 // Обработка случая, когда маршрут не найден
 app.use('*', (req, res, next) => {
