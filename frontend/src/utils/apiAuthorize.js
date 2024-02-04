@@ -1,6 +1,4 @@
-import { ok } from "assert";
-
-export const BASE_URL = 'https://api.mestofan.nomoredomainsmonster.ru';
+export const BASE_URL = 'http://localhost:3000';
 
 export function sendRequest(res) {
   if (res.ok) {
@@ -18,7 +16,6 @@ export function sendRequest(res) {
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
-    credentials: "include",
     headers: {
       'Content-Type': "application/json"
     },
@@ -33,7 +30,6 @@ export const register = (email, password) => {
 export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
-    credentials: "include",
     headers: {
       'Content-Type': "application/json"
     },
@@ -50,7 +46,6 @@ export const checkToken = token => {
   console.log('Sending request to check token:', token);
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
-    credentials: "include",
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,

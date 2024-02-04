@@ -27,14 +27,12 @@ class Api {
     return this._sendRequest(`${this._url}/cards`, {
       method: "GET",
       headers: this._updateHeaders(),
-      Credential: 'include'
     });
   }
 
   getApiUserInfo() {
     return this._sendRequest(`${this._url}/users/me`, {
       method: "GET",
-      credentials: "include",
       headers: this._updateHeaders(),
     });
   }
@@ -42,7 +40,6 @@ class Api {
   editApiProfile(name, about) {
     return this._sendRequest(`${this._url}/users/me`, {
       method: "PATCH",
-      credentials: "include",
       headers: this._updateHeaders(),
       body: JSON.stringify({
         name: name,
@@ -54,7 +51,6 @@ class Api {
   editAvatar(avatarUrl) {
     return this._sendRequest(`${this._url}/users/me/avatar`, {
       method: "PATCH",
-      credentials: "include",
       headers: this._updateHeaders(),
       body: JSON.stringify({
         avatar: avatarUrl,
@@ -65,7 +61,6 @@ class Api {
   addNewCardApi(name, link) {
     return this._sendRequest(`${this._url}/cards`, {
       method: "POST",
-      credentials: "include",
       headers: this._updateHeaders(),
       body: JSON.stringify({
         name: name,
@@ -80,7 +75,6 @@ class Api {
 
     return fetch(url, {
       method: method,
-      credentials: "include",
       headers: this._updateHeaders(),
     }).then((response) => {
       if (!response.ok) {
@@ -95,14 +89,13 @@ class Api {
   deleteCardApi(cardId) {
     return this._sendRequest(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
-      credentials: "include",
       headers: this._updateHeaders(),
     });
   }
 }
 
 const api = new Api({
-  url: "https://api.mestofan.nomoredomainsmonster.ru",
+  url: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },

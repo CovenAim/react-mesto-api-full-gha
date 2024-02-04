@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 
 const { errors: celebrateErrors } = require('celebrate');
@@ -9,7 +10,6 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errors');
 const config = require('./config');
 const { CustomError } = require('./utils/CustomError');
-const cors = require('./middlewares/cors');
 const rootRouter = require('./routes/index');
 
 const app = express();
@@ -19,7 +19,7 @@ const HTTP_NOT_FOUND = 404;
 app.use(helmet());
 
 // Используем cors
-app.use(cors);
+app.use(cors());
 
 // Определение запросов лимитера
 const limiter = rateLimit({
@@ -49,8 +49,7 @@ app.use(limiter);
 app.use(requestLogger);
 
 app.use(errorLogger);
-app.use(celebrateErrors());
-app.use(errorHandler);
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -65,6 +64,9 @@ app.use('*', (req, res, next) => {
   const notFoundError = new CustomError('Страница не найдена', HTTP_NOT_FOUND);
   next(notFoundError);
 });
+
+app.use(celebrateErrors());
+app.use(errorHandler);
 
 const { PORT } = config;
 

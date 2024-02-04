@@ -20,8 +20,11 @@ exports.createCard = async (req, res, next) => {
   const owner = req.user._id;
 
   try {
-    const card = await Card.create({ name, link, owner });
-    return res.status(http2.constants.HTTP_STATUS_CREATED).json(card);
+    const card = await new Card({ name, link, owner });
+    const saveCard = await Card.populate(card, ['owner', 'likes']);
+    return res
+      .status(http2.constants.HTTP_STATUS_CREATED)
+      .json(await saveCard.save());
   } catch (err) {
     if (err.name === 'ValidationError') {
       return next(new BadRequestError(err.message));
@@ -46,7 +49,7 @@ exports.deleteCard = async (req, res, next) => {
     }
 
     await card.deleteOne();
-    res.sendStatus(http2.constants.HTTP_STATUS_OK);
+    res.status(http2.constants.HTTP_STATUS_OK).json(card);
   } catch (err) {
     next(err);
   }
@@ -61,7 +64,7 @@ exports.likeCard = async (req, res, next) => {
       cardId,
       { $addToSet: { likes: req.user._id } },
       { new: true },
-    );
+    ).populate(['owner', 'likes']);
 
     if (!card) {
       throw new NotFoundError('Карточка не найдена');
@@ -85,7 +88,7 @@ exports.dislikeCard = async (req, res, next) => {
       cardId,
       { $pull: { likes: req.user._id } },
       { new: true },
-    );
+    ).populate(['owner', 'likes']);
 
     if (!card) {
       throw new NotFoundError('Карточка не найдена');
