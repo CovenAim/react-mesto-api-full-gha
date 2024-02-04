@@ -11,6 +11,6 @@
 
 IP 158.160.143.90
 
-Frontend https://github.com/CovenAim/react-mesto-api-full-gha/frontend
+Frontend https://covenaim.nomoredomainsmonster.ru
 
-Backend https://github.com/CovenAim/react-mesto-api-full-gha/backend
+Backend https://api.covenaim.nomoredomainsmonster.ru

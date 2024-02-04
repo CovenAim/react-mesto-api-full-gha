@@ -9,12 +9,10 @@ const { errors: celebrateErrors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errors');
 const config = require('./config');
-// const { CustomError } = require('./utils/CustomError');
 const NotFoundError = require('./utils/NotFoundError');
 const rootRouter = require('./routes/index');
 
 const app = express();
-// const HTTP_NOT_FOUND = 404;
 
 // Используем helmet
 app.use(helmet());
@@ -47,6 +45,7 @@ app.use(express.json());
 // Добавляем лимитер
 app.use(limiter);
 app.use(errorLogger);
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -57,11 +56,6 @@ app.get('/crash-test', () => {
 app.use('/', rootRouter);
 
 // Обработка случая, когда маршрут не найден
-// app.use('*', (req, res, next) => {
-//   const notFoundError = new CustomError('Страница не найдена', HTTP_NOT_FOUND);
-//   next(notFoundError);
-// });
-
 app.use('*', (req, res, next) => {
   console.error(`Запрошен несуществующий маршрут: ${req.path}`);
   next(new NotFoundError('Страница не найдена'));
