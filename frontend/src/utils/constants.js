@@ -20,7 +20,7 @@ const urlElement = document.getElementById("url"); //Переменная с ID 
 const inputName = document.querySelector('input[name="name"]'); //Поиск элемента input, у которого атрибут равен name
 const inputDescription = document.querySelector('input[name="description"]'); //Поиск элемента input, у которого атрибут равен description
 const optionsApi = {
-  url: "https://api.mestofan.nomoredomainsmonster.ru",
+  url: "api.covenaim.nomoredomainswork.ru",
   headers: {
     "Content-Type": "application/json",
   },

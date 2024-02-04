@@ -44,7 +44,9 @@ app.use(express.json());
 
 // Добавляем лимитер
 app.use(limiter);
-app.use(errorLogger);
+
+// rootRouter
+app.use('/', rootRouter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -52,18 +54,16 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-// rootRouter
-app.use('/', rootRouter);
-
 // Обработка случая, когда маршрут не найден
 app.use('*', (req, res, next) => {
   console.error(`Запрошен несуществующий маршрут: ${req.path}`);
   next(new NotFoundError('Страница не найдена'));
 });
 
+app.use(requestLogger);
+app.use(errorLogger);
 app.use(celebrateErrors());
 app.use(errorHandler);
-app.use(requestLogger);
 
 const { PORT } = config;
 
