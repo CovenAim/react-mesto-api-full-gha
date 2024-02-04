@@ -1,4 +1,5 @@
 export const BASE_URL = 'api.covenaim.nomoredomainswork.ru';
+// url: "http://localhost:3000",
 
 export function sendRequest(res) {
   if (res.ok) {
