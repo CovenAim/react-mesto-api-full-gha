@@ -45,11 +45,7 @@ app.use(express.json());
 
 // Добавляем лимитер
 app.use(limiter);
-
-app.use(requestLogger);
-
 app.use(errorLogger);
-
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -67,6 +63,7 @@ app.use('*', (req, res, next) => {
 
 app.use(celebrateErrors());
 app.use(errorHandler);
+app.use(requestLogger);
 
 const { PORT } = config;
 
