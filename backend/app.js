@@ -13,7 +13,7 @@ const { CustomError } = require('./utils/CustomError');
 const rootRouter = require('./routes/index');
 
 const app = express();
-// const HTTP_NOT_FOUND = 404;
+const HTTP_NOT_FOUND = 404;
 
 // Используем helmet
 app.use(helmet());
