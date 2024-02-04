@@ -38,9 +38,7 @@ const errorHandler = (err, req, res, next) => {
     return res.status(err.status || 500).json({ message: err.message });
   }
   if (err instanceof NotFoundError) {
-    return res
-      .status(err.status || http2.constants.HTTP_STATUS_NOT_FOUND)
-      .json({ message: err.message });
+    return res.status(err.status || 500).json({ message: err.message });
   }
   if (err instanceof UnauthorizedError) {
     console.log('ОШибка Unauthorized', err);
