@@ -11,6 +11,6 @@
 
 IP 158.160.143.90
 
-Frontend https://covenaim.nomoredomainsmonster.ru
+Frontend https://covenaim.nomoredomainswork.ru
 
-Backend https://api.covenaim.nomoredomainsmonster.ru
+Backend https://api.covenaim.nomoredomainswork.ru
