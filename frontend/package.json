@@ -16,9 +16,10 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts build",
+    "build": "react-scripts --openssl-legacy-provider build ",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "scp -r ./build/* covenaim@158.160.143.90:/home/covenaim/react-mesto-api-full-gha/frontend/build"
   },
   "eslintConfig": {
     "extends": [
