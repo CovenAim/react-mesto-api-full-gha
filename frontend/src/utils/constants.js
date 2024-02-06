@@ -21,7 +21,6 @@ const inputName = document.querySelector('input[name="name"]'); //Поиск э�
 const inputDescription = document.querySelector('input[name="description"]'); //Поиск элемента input, у которого атрибут равен description
 const optionsApi = {
   url: "https://api.covenaim.nomoredomainswork.ru",
-  // url: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },

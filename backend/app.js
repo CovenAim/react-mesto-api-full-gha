@@ -45,6 +45,8 @@ app.use(express.json());
 // Добавляем лимитер
 app.use(limiter);
 
+app.use(requestLogger);
+
 // rootRouter
 app.use('/', rootRouter);
 
@@ -60,7 +62,6 @@ app.use('*', (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
 });
 
-app.use(requestLogger);
 app.use(errorLogger);
 app.use(celebrateErrors());
 app.use(errorHandler);
